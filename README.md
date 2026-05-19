@@ -45,6 +45,7 @@ Docs PRs welcome. Please don't post API keys, real customer emails, sample desti
 
 ## Need help?
 
-- **Telegram** (fastest): [@Nikaproxy_support](https://t.me/Nikaproxy_support)
+- **Discord**: [discord.gg/xeeDxZMRh](https://discord.gg/xeeDxZMRh) — community + dev questions, fastest reply
+- **Telegram**: [@Nikaproxy_support](https://t.me/Nikaproxy_support) — 1-on-1 support
 - **Live docs**: [nikaproxy.com/docs](https://nikaproxy.com/docs)
 - **Examples**: [github.com/Nika-Proxy/nikaproxy-examples](https://github.com/Nika-Proxy/nikaproxy-examples)
