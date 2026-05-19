@@ -74,7 +74,7 @@ Browse the full catalog via the [Generate](https://nikaproxy.com/dashboard/gener
 | `coord_mobile_browser` | Android · Chrome / Samsung / Firefox Mobile |
 | `coord_mobile_library` | Android · OkHttp / Cronet / Volley / etc. |
 
-**First-request latency:** ~5–10 seconds while the coordinator probes candidate exits to find one matching the requested family. Subsequent requests on the same sticky session are sub-second (cached binding).
+**First-request latency:** ~5–10 seconds the first time you use a new sticky session ID — the engine does extra matching work to align your request with the right kind of exit. Subsequent requests on the same session ID are sub-second.
 
 **Family filter** (optional): restrict which profile families coord may pick. Scrape-API only:
 

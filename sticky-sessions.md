@@ -57,13 +57,13 @@ Other values are rejected at request time with `invalid_lifetime`. These specifi
 
 ## Per-customer uniqueness (TLS Ultra)
 
-For TLS Ultra customers running multiple concurrent sticky sessions (e.g. 500 parallel scraping workers), the coordinator guarantees **per-customer IP uniqueness**: no two of your active sticky sessions will be bound to the same exit IP at the same time.
+For TLS Ultra customers running multiple concurrent sticky sessions (e.g. 500 parallel scraping workers), the engine guarantees **per-customer IP uniqueness**: no two of your active sticky sessions will be bound to the same exit IP at the same time.
 
-Other customers can still land on the same IP — the uniqueness is scoped per-customer, not global. This means:
+Other customers can still land on the same IP — the uniqueness is scoped per-customer, not global. In practice:
 - Your `myflow-1` and `myflow-2` get different exits, guaranteed
-- A different customer's `their-flow-1` can be on the same IP as your `myflow-1` (different requests, different sessions, different residential SDK bindings)
+- A different customer's `their-flow-1` is unaffected — they can independently use the same IP
 
-Reservation lifetime = sticky window + 5 min cooldown. After your sticky expires, the IP is released back to the eligible pool ~5 min later.
+After your sticky window closes there's a brief settling period before the IP is eligible for your next sticky.
 
 ## Expected churn
 
@@ -93,8 +93,8 @@ When the underlying SDK exit rotates, the next request on the same `sessionId` w
 
 ## Cost of a fresh sticky session (TLS Ultra)
 
-For TLS Ultra, the **first request on a new sticky session ID is slow** (~5–10 seconds) because the coordinator probes candidate exits to find one matching the requested family (Win11 desktop, mobile browser, etc.). Subsequent requests on the same session ID are sub-second — the binding is cached.
+For TLS Ultra, the **first request on a new sticky session ID is slow** (~5–10 seconds) — the engine does extra matching work to align your request with an exit of the requested family (Win11 desktop, mobile browser, etc.). Subsequent requests on the same session ID are sub-second.
 
-For Residential and TLS Pro, there's no probe — first request is normal latency.
+For Residential and TLS Pro, first-request latency is normal — no extra matching step.
 
 **Implication:** don't generate a fresh `sessionId` for every request on TLS Ultra. Reuse session IDs aggressively across your worker pool; the engine handles per-customer uniqueness automatically.
